@@ -40,16 +40,13 @@ public class Movement : MonoBehaviour
     public bool isDash;
 
     bool jumpPressed;
-    int jumpCount;//跳跃次数
-    [Space]
+    int jumpCount;
 
+    [Space]
     [Header("状态")]
-    //public float power = 60f;
     public float hp = 100f;
     public float x;
     public float y;
-    //private Vector2 dir;
-    //private Vector2 dirRaw;
     public float xRaw;
     public float yRaw;
 
@@ -58,7 +55,6 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         anim = GetComponent<Animator>();
-        //gmg = GetComponent<GameManager>();
         tmp = speed;//保存speed;
         Dead = true;
     }
@@ -80,8 +76,8 @@ public class Movement : MonoBehaviour
 
         if (GameManager.instance.power > 0 && isClimb && y > 0)//向上爬
         {
-            GameManager.instance.power -= 0.8f;
-            rb.velocity = new Vector2(rb.velocity.x, climbSpeed * y * Time.deltaTime);
+            GameManager.instance.power -= 0.1f;
+            rb.velocity = new Vector2(rb.velocity.x, climbSpeed * y);
             isUpClimb = true;
         }
 
@@ -192,6 +188,8 @@ public class Movement : MonoBehaviour
             {
                 if(rb.velocity.y > 0 && !isGround)
                 {
+                    //Camera.main.transform.DOComplete();//目前进度，complete完成 
+                    //Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
                     rb.velocity = new Vector2(dashSpeed * x, jumpForce);
                 }
                 
@@ -212,33 +210,19 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //void Dash()
-    //{
-        /*if (Input.GetButtonDown("Dash"))
-        {
-            //Camera.main.transform.DOComplete();//目前进度，complete完成 
-            //Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);//震动.第二个相机无法抖动了
-            //FindObjectOfType<RippleEffect>().Emit(Camera.main.WorldToViewportPoint(transform.position));//RippleEffect涟漪效应
-            print("ggggg");
-            rb.velocity = dir.normalized * dashSpeed;
-            isDashing = true;//动画
-            isDash = false;//未完成++++++++++++++++++++++++++++++++++++++++++++
-        }*/
-    //}
-
     void Climb()
     {
         isClimb = false;
         rb.gravityScale = 2f;
         if(GameManager.instance.power > 0)
         {
-            if((isWallLeft || isWallRight) && Input.GetKey(KeyCode.C))/*(isWallLeft && x < 0) || (isWallRight && x > 0)*/ 
+            if((isWallLeft && x < 0) || (isWallRight && x > 0))
             {
                 SoundManager.instance.ClimbAudio();
                 isClimb = true;
-                GameManager.instance.power -= 0.05f;
+                GameManager.instance.power -= 0.1f;
                 if (rb.velocity.y < 0)
-                    rb.gravityScale = 0.1f;
+                    rb.velocity = new Vector2(rb.velocity.x, -0.1f);
             }
         }
     }
@@ -267,18 +251,19 @@ public class Movement : MonoBehaviour
             anim.SetBool("jumping", false);
             anim.SetBool("climbing", false);
         }
-        else if (!isGround && rb.velocity.y > 0 && isClimb == false) // 
+        else if (!isGround && rb.velocity.y > 0 && isClimb == false)
         {
             anim.SetBool("jumping", true);
             anim.SetBool("falling", false);
             anim.SetBool("climbing", false);
         }
-        else if (rb.velocity.y < 0 && isClimb == false)// 
+        else if (rb.velocity.y < 0 && isClimb == false)
         {
             anim.SetBool("falling", true);
             anim.SetBool("jumping", false);
             anim.SetBool("climbing", false);
         }
+        //这不能else if
         if (isClimb)
         {
             anim.SetBool("climbing", true);

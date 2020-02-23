@@ -23,7 +23,7 @@ TagManager:
   - Jar
   - GoldenLeaf
   - SilverLeaf
-  - 
+  - Background
   - 
   - 
   - DeadLine
@@ -47,8 +47,14 @@ TagManager:
   - name: ground
     uniqueID: 337957589
     locked: 0
+  - name: LightGroundMod
+    uniqueID: 3148093845
+    locked: 0
   - name: platform
     uniqueID: 2350563517
+    locked: 0
+  - name: Player
+    uniqueID: 935067923
     locked: 0
   - name: front
     uniqueID: 3715533023

@@ -21,7 +21,7 @@ public class FollowCam : MonoBehaviour
     private void Update()
     {
         Vector3 destination = player.transform.position;
-        destination = Vector3.Lerp(transform.position, destination, easing);
+        destination = Vector3.Lerp(transform.position, destination , easing);
         destination.z = transform.position.z;
         if (shakeis)
         {

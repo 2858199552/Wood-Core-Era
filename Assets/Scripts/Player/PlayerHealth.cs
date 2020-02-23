@@ -8,7 +8,6 @@ public class PlayerHealth : MonoBehaviour
     int trapsLayer;
     int arrowLayer;
     int deadLineLayer;
-    public int Health;
     public string EnemyTag; //敌人标签
     public bool IsDamage; //是否受伤(硬核英语)
     public Animator anim;
@@ -21,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
     }
     private void OnEnable()
     {
-        Health = 3;
+        GameManager.instance.Health = 3;
         IsDamage = false;
     }
 
@@ -38,8 +37,8 @@ public class PlayerHealth : MonoBehaviour
         if(collision.tag == EnemyTag && !IsDamage)
         {
             print("ssssss");
-            Health--;
-            if(Health <= 0)
+            GameManager.instance.Health--;
+            if(GameManager.instance.Health <= 0)
             {
                 SoundManager.instance.DeadAudio();
                 gameObject.SetActive(false);

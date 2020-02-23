@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public float power = 60f;
+    public float Health;
+    //attack,defence
+    public float ATK;
+    public float DEF;
     public static GameManager instance;
 
     private void Awake()
